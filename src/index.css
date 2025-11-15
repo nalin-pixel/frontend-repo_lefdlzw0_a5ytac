@@ -4,43 +4,53 @@
 
 @layer base {
   :root {
-    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-geist: 'Geist', system-ui, sans-serif;
-    --font-geist-mono: 'Geist Mono', monospace;
-    --font-mona: 'Mona Sans', system-ui, sans-serif;
-    --font-ibm-plex: 'IBM Plex Sans', system-ui, sans-serif;
-    --font-manrope: 'Manrope', system-ui, sans-serif;
+    --primary: #006CF0; /* AI Flames Blue */
+    --mint: #CFF7E9;
+    --blush: #FFD9EC;
+    --lilac: #EBD8FF;
+    --butter: #FFF5C7;
+    --glass: rgba(255,255,255,0.55);
+    --text: #0f172a; /* slate-900 */
   }
 
-  html {
-    font-family: var(--font-sans);
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-
-  body {
-    @apply antialiased;
-  }
+  html { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  body { @apply antialiased; }
 }
 
-/* Custom utility classes for shadcn/ui patterns */
+/* Background: holographic grain + soft pastel gradient */
 @layer utilities {
-  .animate-in {
-    animation-name: animateIn;
-    animation-duration: 350ms;
-    --tw-enter-opacity: initial;
-    --tw-enter-scale: initial;
-    --tw-enter-rotate: initial;
-    --tw-enter-translate-x: initial;
-    --tw-enter-translate-y: initial;
+  .bg-site {
+    background: radial-gradient(80% 60% at 0% 0%, rgba(207,247,233,0.55), transparent 60%),
+                radial-gradient(70% 50% at 100% 100%, rgba(255,217,236,0.55), transparent 60%),
+                radial-gradient(60% 40% at 50% 30%, rgba(235,216,255,0.5), transparent 60%),
+                linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
   }
 
-  .animate-out {
-    animation-name: animateOut;
-    animation-duration: 350ms;
-    --tw-exit-opacity: initial;
-    --tw-exit-scale: initial;
-    --tw-exit-rotate: initial;
-    --tw-exit-translate-x: initial;
-    --tw-exit-translate-y: initial;
-  }
+  .grain-overlay { position: absolute; inset: 0; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.05"/></svg>'); mix-blend-mode: overlay; }
+
+  .glass-panel { box-shadow: 0 20px 60px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.75); background: var(--glass); backdrop-filter: blur(18px); }
+
+  .btn-primary { @apply inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-white font-semibold shadow-lg transition-all; background: linear-gradient(135deg, var(--primary) 0%, #2c85ff 50%, var(--primary) 100%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 8px 20px rgba(0,108,240,0.35); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 12px 28px rgba(0,108,240,0.45); }
+  .btn-primary::after { content: ""; position: absolute; inset: 0; border-radius: 9999px; background: linear-gradient(120deg, rgba(255,255,255,0.35), transparent 60%); opacity: 0.6; pointer-events: none; }
+
+  .btn-ghost { @apply inline-flex items-center justify-center px-5 py-3 rounded-full font-semibold text-slate-800 border; border-color: rgba(15,23,42,0.08); background: rgba(255,255,255,0.6); backdrop-filter: blur(8px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.7); }
+  .btn-ghost:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 6px 14px rgba(2,6,23,0.06); }
+
+  .input-glass { @apply px-4 py-3 rounded-full border outline-none w-full; border-color: rgba(15,23,42,0.1); background: rgba(255,255,255,0.65); box-shadow: inset 0 1px 0 rgba(255,255,255,0.85); }
+
+  .feature-card { @apply p-5 rounded-3xl border bg-white/40 backdrop-blur-xl; border-color: rgba(255,255,255,0.7); box-shadow: 0 20px 60px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8); }
+  .icon-wrap { @apply w-10 h-10 rounded-2xl flex items-center justify-center mb-4; background: linear-gradient(135deg, #d9ecff, #CFF7E9); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 10px 20px rgba(0,0,0,0.05); }
+  .feature-title { @apply text-slate-900 font-semibold; }
+  .feature-desc { @apply text-slate-600 mt-1; }
+
+  .filter-chip { @apply px-4 py-2 rounded-full border text-sm bg-white/60 backdrop-blur; border-color: rgba(15,23,42,0.08); }
+  .filter-chip.is-active { background: linear-gradient(135deg, #EBD8FF, #FFF5C7); box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 8px 18px rgba(0,0,0,0.06); }
+
+  .product-card { @apply rounded-3xl overflow-hidden border bg-white/40 backdrop-blur-xl; border-color: rgba(255,255,255,0.7); box-shadow: 0 20px 60px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.7); }
+  .product-media { position: relative; width: 100%; padding-top: 66%; background: linear-gradient(180deg, #f8fafc, #ffffff); }
+  .product-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .chrome-flare { position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255,255,255,0.6), transparent 60%); mix-blend-mode: screen; opacity: 0.7; }
+
+  .social-icon { @apply w-9 h-9 inline-flex items-center justify-center rounded-full bg-white/70 border; border-color: rgba(255,255,255,0.7); box-shadow: 0 6px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9); }
 }
